@@ -13,6 +13,12 @@ getResourcesByNamespace = function (namespace, callback) {
             var items = [];
             for (var k in json) {
                 let item = json[k];
+                if (item.resources.limits === undefined || item.resources.limits.cpu === undefined || item.resources.limits.memory === undefined
+                    || item.resources.requests === undefined || item.resources.requests.cpu === undefined || item.resources.requests.memory === undefined) {
+                    console.log(`INFO: ${item.app} is not specified. Skipped.`);
+                    continue;
+                }
+
                 var resource = {
                     app: item.app,
                     replicas: item.replicas,
