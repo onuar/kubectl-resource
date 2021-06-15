@@ -1,5 +1,5 @@
 # kubectl-resource
-Useful for overall cluster resources (cpu and mem limit). It works on ```kubectl current context```. So you should be sure that you are working on right context.
+Useful for overall cluster resources (cpu and mem limit). It works on ```kubectl config current-context```. So you should be sure that you are working on right context.
 
 ## Prerequisites
 * Kubectl
