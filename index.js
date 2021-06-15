@@ -106,6 +106,10 @@ const { argv } = require('yargs')
 getResourcesByNamespace(argv.namespace, function (response) {
     // console.log(response);
     var calcAppResponse = calculateAppResouces(response, argv.clusterCount);
+
+    if (argv.detailed) {
+        console.log(calcAppResponse);//detailed
+    }
     var overall = calculateOverall(calcAppResponse);
     console.log(overall);
 
