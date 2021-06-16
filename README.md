@@ -13,3 +13,6 @@ Useful for overall cluster resources (cpu and mem limit). It works on ```kubectl
 
 ## For service level details
 ```npm run start -- --namespace=my-team --clusterCount=3 --detailed```
+
+## Prints results as csv
+```npm run start -- --namespace=my-team --clusterCount=3 --csv```
