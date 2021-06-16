@@ -15,7 +15,11 @@ getResourcesByNamespace = function (namespace, callback) {
                 let item = json[k];
                 if (item.replicas === 0 || item.resources.limits === undefined || item.resources.limits.cpu === undefined || item.resources.limits.memory === undefined
                     || item.resources.requests === undefined || item.resources.requests.cpu === undefined || item.resources.requests.memory === undefined) {
-                    console.log(`INFO: ${item.app} is not specified. Skipped.`);
+                    console.log(`INFO: ${item.app} is not specified. 
+                                    Replicas: ${item.replicas}
+                                    Requests: ${JSON.stringify(item.resources.requests)} 
+                                    Limits: ${JSON.stringify(item.resources.limits)}. 
+                                Skipped.`);
                     continue;
                 }
 
@@ -51,7 +55,7 @@ getGBMemoryUnit = function (value) {
     return Number(value.replace('Gi', ''));
 };
 
-calculateAppResouces = function (resources, clusterCount) {
+calculateAppResouces = function (resources, clusterCount, csv) {
     var calculatedResources = [];
     for (k in resources) {
         let item = resources[k];
@@ -72,6 +76,10 @@ calculateAppResouces = function (resources, clusterCount) {
             requests: item.resources.requests,
             limits: item.resources.limits
         });
+
+        if (csv) {
+            console.log(`${item.app},${item.replicas},${item.resources.requests.cpu},${item.resources.limits.cpu},${item.resources.requests.memory},${item.resources.limits.memory}`);
+        }
     }
 
     return calculatedResources;
@@ -105,7 +113,7 @@ const { argv } = require('yargs')
 
 getResourcesByNamespace(argv.namespace, function (response) {
     // console.log(response);
-    var calcAppResponse = calculateAppResouces(response, argv.clusterCount);
+    var calcAppResponse = calculateAppResouces(response, argv.clusterCount, argv.csv);
 
     if (argv.detailed) {
         console.log(calcAppResponse);//detailed
